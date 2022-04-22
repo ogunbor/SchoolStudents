@@ -10,7 +10,7 @@ internal sealed class SchoolRepository : RepositoryBase<School>, ISchoolReposito
 	{
 	}
 
-	public IEnumerable<School> GetAllCompanies(bool trackChanges) =>
+	public IEnumerable<School> GetAllSchools(bool trackChanges) =>
 		FindAll(trackChanges)
 		.OrderBy(c => c.Name)
 		.ToList();
