@@ -19,15 +19,10 @@ public class SchoolsController : ControllerBase
 	[HttpGet]
 	public IActionResult GetSchools()
 	{
-		try
-		{
-			var schools = _service.SchoolService.GetAllSchools(trackChanges: false);
+		//throw new Exception("Exception");
+		var schools = _service.SchoolService.GetAllSchools(trackChanges: false);
 
 			return Ok(schools);
-		}
-		catch
-		{
-			return StatusCode(500, "Internal server error");
-		}
+
 	}
 }

@@ -21,17 +21,11 @@ namespace Service
 
         public IEnumerable<SchoolDto> GetAllSchools(bool trackChanges)
         {
-            try
-            {
+            
                 var schools = _repository.School.GetAllSchools(trackChanges);
                 var schoolsDto = _mapper.Map<IEnumerable<SchoolDto>>(schools);
                 return schoolsDto;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllSchools)} service method {ex}");
-                throw;
-            }
+
         }
     }
 
