@@ -9,7 +9,7 @@ namespace API
 		public MappingProfile()
 		{
 			CreateMap<School, SchoolDto>()
-				.ForCtorParam("FullAddress",
+			.ForMember(c => c.FullAddress,
 				opt => opt.MapFrom(x => string.Join(' ', x.Address, x.State)));
 
 			CreateMap<Student, StudentDto>();
