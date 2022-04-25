@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.DataTransferObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Service.Contracts
 {
     public interface IStudentService
     {
+        IEnumerable<StudentDto> GetStudents(Guid schoolId, bool trackChanges);
+        StudentDto GetStudent(Guid schoolId, Guid id, bool trackChanges);
     }
 }

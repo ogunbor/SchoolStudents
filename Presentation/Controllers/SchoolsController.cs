@@ -23,6 +23,13 @@ public class SchoolsController : ControllerBase
 		var schools = _service.SchoolService.GetAllSchools(trackChanges: false);
 
 			return Ok(schools);
+	}
 
+
+	[HttpGet("{id:guid}")]
+	public IActionResult GetSchool(Guid id)
+	{
+		var school = _service.SchoolService.GetSchool(id, trackChanges: false);
+		return Ok(school);
 	}
 }

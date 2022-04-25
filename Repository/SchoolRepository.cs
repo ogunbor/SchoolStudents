@@ -14,4 +14,8 @@ internal sealed class SchoolRepository : RepositoryBase<School>, ISchoolReposito
 		FindAll(trackChanges)
 		.OrderBy(c => c.Name)
 		.ToList();
+
+	public School GetSchool(Guid schoolId, bool trackChanges) =>
+		FindByCondition(c => c.Id.Equals(schoolId), trackChanges)
+		.SingleOrDefault();
 }

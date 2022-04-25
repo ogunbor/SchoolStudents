@@ -9,4 +9,13 @@ internal sealed class StudentRepository : RepositoryBase<Student>, IStudentRepos
 		: base(repositoryContext)
 	{
 	}
+
+	public IEnumerable<Student> GetStudents(Guid schoolId, bool trackChanges) =>
+		FindByCondition(e => e.SchoolId.Equals(schoolId), trackChanges)
+		.OrderBy(e => e.Name)
+		.ToList();
+
+	public Student GetStudent(Guid schoolId, Guid id, bool trackChanges) =>
+		FindByCondition(e => e.SchoolId.Equals(schoolId) && e.Id.Equals(id), trackChanges)
+		.SingleOrDefault();
 }

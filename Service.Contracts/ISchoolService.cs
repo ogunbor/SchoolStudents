@@ -11,5 +11,6 @@ namespace Service.Contracts
     public interface ISchoolService
     {
         IEnumerable<SchoolDto> GetAllSchools(bool trackChanges);
+        SchoolDto GetSchool(Guid schoolId, bool trackChanges);
     }
 }

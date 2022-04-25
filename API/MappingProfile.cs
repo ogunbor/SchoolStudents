@@ -11,6 +11,8 @@ namespace API
 			CreateMap<School, SchoolDto>()
 				.ForCtorParam("FullAddress",
 				opt => opt.MapFrom(x => string.Join(' ', x.Address, x.State)));
+
+			CreateMap<Student, StudentDto>();
 		}
 	}
 }
