@@ -2,6 +2,7 @@
 using AutoMapper;
 using Contracts;
 using Entities.Exceptions;
+using Entities.Models;
 using Service.Contracts;
 using Shared.DataTransferObjects;
 
@@ -46,5 +47,19 @@ internal sealed class StudentService : IStudentService
 
 		var student = _mapper.Map<StudentDto>(studentDb);
 		return student;
+	}
+
+	public StudentDto CreateStudentForSchool(Guid schoolId, StudentForCreationDto studentForCreation, bool trackChanges)
+	{
+		var school = _repository.School.GetSchool(schoolId, trackChanges);
+		if (school is null)
+			throw new StudentNotFoundException(schoolId);
+
+		var studentEntity = _mapper.Map<Student>(studentForCreation);
+
+		_repository.Student.CreateStudentForSchool(schoolId, studentEntity);
+		_repository.Save();
+
+		return _mapper.Map<StudentDto>(studentEntity);
 	}
 }

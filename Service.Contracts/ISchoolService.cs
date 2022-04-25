@@ -12,5 +12,11 @@ namespace Service.Contracts
     {
         IEnumerable<SchoolDto> GetAllSchools(bool trackChanges);
         SchoolDto GetSchool(Guid schoolId, bool trackChanges);
+
+        SchoolDto CreateSchool(SchoolForCreationDto school);
+        IEnumerable<SchoolDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
+
+        (IEnumerable<SchoolDto> schools, string ids) CreateSchoolCollection
+        (IEnumerable<SchoolForCreationDto> schoolCollection);
     }
 }

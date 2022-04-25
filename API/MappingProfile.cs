@@ -13,6 +13,10 @@ namespace API
 				opt => opt.MapFrom(x => string.Join(' ', x.Address, x.State)));
 
 			CreateMap<Student, StudentDto>();
+
+			CreateMap<SchoolForCreationDto, School>();
+
+			CreateMap<StudentForCreationDto, Student>();
 		}
 	}
 }

@@ -38,6 +38,50 @@ namespace Service
             var schoolDto = _mapper.Map<SchoolDto>(school);
             return schoolDto;
         }
+
+        public SchoolDto CreateSchool(SchoolForCreationDto school)
+        {
+            var schoolEntity = _mapper.Map<School>(school);
+
+            _repository.School.CreateSchool(schoolEntity);
+            _repository.Save();
+
+            return _mapper.Map<SchoolDto>(schoolEntity);
+           
+        }
+
+        public IEnumerable<SchoolDto> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+        {
+            if (ids is null)
+                throw new IdParametersBadRequestException();
+
+            var schoolEntities = _repository.School.GetByIds(ids, trackChanges);
+            if (ids.Count() != schoolEntities.Count())
+                throw new CollectionByIdsBadRequestException();
+
+           return _mapper.Map<IEnumerable<SchoolDto>>(schoolEntities);
+
+        }
+
+        public (IEnumerable<SchoolDto> schools, string ids) CreateSchoolCollection
+        (IEnumerable<SchoolForCreationDto> schoolCollection)
+        {
+            if (schoolCollection is null)
+                throw new SchoolCollectionBadRequest();
+
+            var schoolEntities = _mapper.Map<IEnumerable<School>>(schoolCollection);
+            foreach (var school in schoolEntities)
+            {
+                _repository.School.CreateSchool(school);
+            }
+
+            _repository.Save();
+
+            var schoolCollectionToReturn = _mapper.Map<IEnumerable<SchoolDto>>(schoolEntities);
+            var ids = string.Join(",", schoolCollectionToReturn.Select(c => c.Id));
+
+            return (schools: schoolCollectionToReturn, ids: ids);
+        }
     }
 
     

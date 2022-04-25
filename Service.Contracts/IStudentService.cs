@@ -11,5 +11,6 @@ namespace Service.Contracts
     {
         IEnumerable<StudentDto> GetStudents(Guid schoolId, bool trackChanges);
         StudentDto GetStudent(Guid schoolId, Guid id, bool trackChanges);
+        StudentDto CreateStudentForSchool(Guid schoolId,StudentForCreationDto studentForCreation, bool trackChanges);
     }
 }

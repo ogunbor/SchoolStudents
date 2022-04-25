@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using API.Presentation.ModelBinders;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Service.Contracts;
+using Shared.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,10 +29,39 @@ public class SchoolsController : ControllerBase
 	}
 
 
-	[HttpGet("{id:guid}")]
+	[HttpGet("{id:guid}", Name = "SchoolById")]
 	public IActionResult GetSchool(Guid id)
 	{
 		var school = _service.SchoolService.GetSchool(id, trackChanges: false);
 		return Ok(school);
+	}
+
+	[HttpGet("collection/({ids})", Name = "SchoolCollection")]
+	public IActionResult GetSchoolCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
+	//public IActionResult GetSchoolCollection(IEnumerable<Guid> ids)
+	{
+		var schools = _service.SchoolService.GetByIds(ids, trackChanges: false);
+
+		return Ok(schools);
+	}
+
+	[HttpPost]
+	public IActionResult CreateSchool([FromBody] SchoolForCreationDto school)
+	{
+		if (school is null)
+			return BadRequest("SchoolForCreationDto object is null");
+
+		var createdSchool = _service.SchoolService.CreateSchool(school);
+
+		return CreatedAtRoute("SchoolById", new { id = createdSchool.Id }, createdSchool);
+	}
+
+
+	[HttpPost("collection")]
+	public IActionResult CreateSchoolCollection([FromBody] IEnumerable<SchoolForCreationDto> schoolCollection)
+	{
+		var result = _service.SchoolService.CreateSchoolCollection(schoolCollection);
+
+		return CreatedAtRoute("SchoolCollection", new { result.ids }, result.schools);
 	}
 }
