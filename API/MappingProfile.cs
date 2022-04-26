@@ -18,7 +18,6 @@ namespace API
 
 			CreateMap<StudentForCreationDto, Student>();
 
-			CreateMap<StudentForUpdateDto, Student>();
 		}
 	}
 }
