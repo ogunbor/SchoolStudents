@@ -93,6 +93,17 @@ namespace Service
             _repository.School.DeleteSchool(school);
             _repository.Save();
         }
+
+        public void UpdateSchool(Guid schoolId, SchoolForUpdateDto schoolForUpdate, bool trackChanges)
+        {
+            var schoolEntity = _repository.School.GetSchool(schoolId, trackChanges);
+            if (schoolEntity is null)
+                throw new SchoolNotFoundException(schoolId);
+
+            _mapper.Map(schoolForUpdate, schoolEntity);
+            _repository.Save();
+        }
+
     }
 
     

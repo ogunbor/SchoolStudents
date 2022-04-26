@@ -46,4 +46,17 @@ public class StudentsController : ControllerBase
 
 		return NoContent();
 	}
+
+	[HttpPut("{id:guid}")]
+	public IActionResult UpdateStudentForSchool(Guid schoolId, Guid id,
+		[FromBody] StudentForUpdateDto student)
+	{
+		if (student is null)
+			return BadRequest("StudentForUpdateDto object is null");
+
+		_service.StudentService.UpdateStudentForSchool(schoolId, id, student,
+			compTrackChanges: false, empTrackChanges: true);
+
+		return NoContent();
+	}
 }

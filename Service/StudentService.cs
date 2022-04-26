@@ -76,4 +76,19 @@ internal sealed class StudentService : IStudentService
 		_repository.Student.DeleteStudent(studentForSchool);
 		_repository.Save();
 	}
+
+	public void UpdateStudentForSchool(Guid schoolId, Guid id, StudentForUpdateDto studentForUpdate,
+		bool compTrackChanges, bool empTrackChanges)
+	{
+		var school = _repository.School.GetSchool(schoolId, compTrackChanges);
+		if (school is null)
+			throw new SchoolNotFoundException(schoolId);
+
+		var studentEntity = _repository.Student.GetStudent(schoolId, id, empTrackChanges);
+		if (studentEntity is null)
+			throw new StudentNotFoundException(id);
+
+		_mapper.Map(studentForUpdate, studentEntity);
+		_repository.Save();
+	}
 }
