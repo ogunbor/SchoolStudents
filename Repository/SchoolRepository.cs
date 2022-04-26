@@ -24,4 +24,6 @@ internal sealed class SchoolRepository : RepositoryBase<School>, ISchoolReposito
 	public IEnumerable<School> GetByIds(IEnumerable<Guid> ids, bool trackChanges) =>
 		FindByCondition(x => ids.Contains(x.Id), trackChanges)
 		.ToList();
+
+	public void DeleteSchool(School school) => Delete(school);
 }

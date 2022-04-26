@@ -23,4 +23,6 @@ internal sealed class StudentRepository : RepositoryBase<Student>, IStudentRepos
 	{
 		student.SchoolId = schoolId; Create(student);
 	}
+
+	public void DeleteStudent(Student student) => Delete(student);
 }

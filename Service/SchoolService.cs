@@ -81,6 +81,17 @@ namespace Service
             var ids = string.Join(",", schoolCollectionToReturn.Select(c => c.Id));
 
             return (schools: schoolCollectionToReturn, ids: ids);
+      
+        }
+
+        public void DeleteSchool(Guid schoolId, bool trackChanges)
+        {
+            var school = _repository.School.GetSchool(schoolId, trackChanges);
+            if (school is null)
+                throw new SchoolNotFoundException(schoolId);
+
+            _repository.School.DeleteSchool(school);
+            _repository.Save();
         }
     }
 

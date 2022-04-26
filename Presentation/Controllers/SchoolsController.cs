@@ -64,4 +64,12 @@ public class SchoolsController : ControllerBase
 
 		return CreatedAtRoute("SchoolCollection", new { result.ids }, result.schools);
 	}
+
+	[HttpDelete("{id:guid}")]
+	public IActionResult DeleteCompany(Guid id)
+	{
+		_service.SchoolService.DeleteSchool(id, trackChanges: false);
+
+		return NoContent();
+	}
 }

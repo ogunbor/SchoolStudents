@@ -18,5 +18,7 @@ namespace Service.Contracts
 
         (IEnumerable<SchoolDto> schools, string ids) CreateSchoolCollection
         (IEnumerable<SchoolForCreationDto> schoolCollection);
+
+        void DeleteSchool(Guid schoolId, bool trackChanges);
     }
 }

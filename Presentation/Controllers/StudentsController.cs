@@ -38,4 +38,12 @@ public class StudentsController : ControllerBase
 		return CreatedAtRoute("GetStudentForSchool", new { schoolId, id = studentToReturn.Id },
 			studentToReturn);
 	}
+
+	[HttpDelete("{id:guid}")]
+	public IActionResult DeleteStudentForSchool(Guid schoolId, Guid id)
+	{
+		_service.StudentService.DeleteStudentForSchool(schoolId, id, trackChanges: false);
+
+		return NoContent();
+	}
 }
