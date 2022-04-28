@@ -1,5 +1,6 @@
 ﻿
 
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
@@ -56,6 +57,24 @@ public class StudentsController : ControllerBase
 
 		_service.StudentService.UpdateStudentForSchool(schoolId, id, student,
 			compTrackChanges: false, empTrackChanges: true);
+
+		return NoContent();
+	}
+
+
+	[HttpPatch("{id:guid}")]
+	public IActionResult PartiallyUpdateStudentForSchool(Guid schoolId, Guid id,
+		[FromBody] JsonPatchDocument<StudentForUpdateDto> patchDoc)
+	{
+		if (patchDoc is null)
+			return BadRequest("patchDoc object sent from client is null.");
+
+		var result = _service.StudentService.GetStudentForPatch(schoolId, id, compTrackChanges: false,
+			empTrackChanges: true);
+
+		patchDoc.ApplyTo(result.studentToPatch);
+
+		_service.StudentService.SaveChangesForPatch(result.studentToPatch, result.studentEntity);
 
 		return NoContent();
 	}

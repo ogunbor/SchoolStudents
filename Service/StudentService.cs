@@ -91,4 +91,26 @@ internal sealed class StudentService : IStudentService
 		_mapper.Map(studentForUpdate, studentEntity);
 		_repository.Save();
 	}
+
+	public (StudentForUpdateDto studentToPatch, Student studentEntity) GetStudentForPatch
+		(Guid schoolId, Guid id, bool compTrackChanges, bool empTrackChanges)
+	{
+		var school = _repository.School.GetSchool(schoolId, compTrackChanges);
+		if (school is null)
+			throw new SchoolNotFoundException(schoolId);
+
+		var studentEntity = _repository.Student.GetStudent(schoolId, id, empTrackChanges);
+		if (studentEntity is null)
+			throw new StudentNotFoundException(schoolId);
+
+		var studentToPatch = _mapper.Map<StudentForUpdateDto>(studentEntity);
+
+		return (studentToPatch, studentEntity);
+	}
+
+	public void SaveChangesForPatch(StudentForUpdateDto studentToPatch, Student studentEntity)
+	{
+		_mapper.Map(studentToPatch, studentEntity);
+		_repository.Save();
+	}
 }
